@@ -44,3 +44,45 @@ function abd_add_options($swp_options) {
 
     return $swp_options;
 }
+
+/**
+ * The Button Emphasizer Function
+ *
+ * @since  1.0.0
+ * @access public
+ * @param  array $info An array of footer script information.
+ * @return array $info A modified array of footer script information.
+ */
+add_filter( 'swp_footer_scripts' , 'swp_emphasize_buttons' );
+function swp_emphasize_buttons( $info ) {
+
+	$info['footer_output'] .= PHP_EOL . '
+        jQuery(window).on("pre_activate_buttons", swp_emphasize_buttons );
+        jQuery(window).on("floating_bar_revealed", swp_emphasize_buttons );
+
+        function swp_emphasize_buttons() {
+            var emphasize_icons = jQuery(".nc_socialPanel:not(.nc_socialPanelSide)").attr("data-emphasize");
+            if( ! isMobile.phone ) {
+                setTimeout( function () {
+                    jQuery(".nc_socialPanel:not(.nc_socialPanelSide)").each(function(){
+                        var i = 1;
+                        jQuery(this).find(".nc_tweetContainer:not(.totes)").each(function(){
+                            if(i <= emphasize_icons) {
+                                jQuery(this).addClass("swp_nohover");
+                                var term_width = jQuery(this).find(".swp_share").width();
+                                var icon_width = jQuery(this).find("i.sw").outerWidth();
+                    			var container_width = jQuery(this).width();
+                    			var percentage_change = 1 + ((term_width + 35) / container_width);
+                                jQuery(this).find(".iconFiller").width(term_width + icon_width + 25 + "px");
+                                jQuery(this).css({flex:percentage_change + " 1 0%"});
+                            }
+                            ++i;
+                        });
+                    });
+                } , 25 );
+            }
+        }
+    ';
+
+	return $info;
+}
