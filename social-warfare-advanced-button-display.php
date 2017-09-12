@@ -89,20 +89,29 @@ function swed_update_checker() {
  */
 add_filter('swp_options', 'SWED_add_options' , 10 );
 function SWED_add_options($swp_options) {
-    $option['emphasize_icons'] = array(
-        'type'		=> 'select',
-        'size'		=> 'two-thirds',
-        'content'	=> array(
-            '0' 	=> __( 'Don\'t Emphasize Any Buttons' ,'social-warfare' ),
-    		'1' 	=> __( 'Emphasize the First Button' ,'social-warfare' ),
-    		'2' 	=> __( 'Emphasize the First Two Buttons' ,'social-warfare' )
-    	),
-    	'default'	=> '0',
-    	'name'		=> __( 'Emphasize Buttons' ,'social-warfare' ),
-    	'premium'	=> true
-    );
 
-    $swp_options = swp_insert_option( $swp_options , 'swp_display' , 'buttons_divider' , $option , 'before' );
+    if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWED_CORE_VERSION_REQUIRED) >= 0){
+
+        // Check if the plugin is registered
+        if( is_swp_addon_registered( 'enhanced_display' ) ) {
+
+            $option['emphasize_icons'] = array(
+                'type'		=> 'select',
+                'size'		=> 'two-thirds',
+                'content'	=> array(
+                    '0' 	=> __( 'Don\'t Emphasize Any Buttons' ,'social-warfare' ),
+            		'1' 	=> __( 'Emphasize the First Button' ,'social-warfare' ),
+            		'2' 	=> __( 'Emphasize the First Two Buttons' ,'social-warfare' )
+            	),
+            	'default'	=> '0',
+            	'name'		=> __( 'Emphasize Buttons' ,'social-warfare' ),
+            	'premium'	=> true
+            );
+
+            $swp_options = swp_insert_option( $swp_options , 'swp_display' , 'buttons_divider' , $option , 'before' );
+
+        }
+    }
 
     return $swp_options;
 }
