@@ -14,11 +14,11 @@ defined( 'WPINC' ) || die;
 /**
  * Define plugin constants for use throughout the plugin (Version and Directories)
  */
-define( 'SWABD_PLUGIN_FILE', __FILE__ );
-define( 'SWABD_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
-define( 'SWABD_PLUGIN_DIR', dirname( __FILE__ ) );
-define( 'SWABD_ITEM_ID', 114481 );
-define( 'SWABD_CORE_VERSION_REQUIRED' , '2.3.2');
+define( 'SWED_PLUGIN_FILE', __FILE__ );
+define( 'SWED_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
+define( 'SWED_PLUGIN_DIR', dirname( __FILE__ ) );
+define( 'SWED_ITEM_ID', 114481 );
+define( 'SWED_CORE_VERSION_REQUIRED' , '2.3.2');
 
 /**
  * Add a registration key for the registration functions
@@ -31,13 +31,13 @@ add_filter('swp_registrations' , 'social_warfare_affiliatewp_registration_key' ,
 function social_warfare_affiliatewp_registration_key($array) {
 
     // Make sure core is on a version that contains our dependancies
-    if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWAWP_CORE_VERSION_REQUIRED) >= 0){
+    if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWED_CORE_VERSION_REQUIRED) >= 0){
 
         // Add this plugin to the registrations array
         $array['enhanced_display'] = array(
             'plugin_name' => 'Social Warfare - Enhanced Display',
             'key' => 'enhanced_display',
-            'product_id' => SWAWP_ITEM_ID
+            'product_id' => SWED_ITEM_ID
         );
     }
 
@@ -45,6 +45,40 @@ function social_warfare_affiliatewp_registration_key($array) {
     return $array;
 }
 
+/**
+ * A function to check for updates to this addon
+ *
+ * @since 1.0.0
+ * @param none
+ * @return none
+ *
+ */
+add_action( 'plugins_loaded' , 'swed_update_checker' , 20 );
+function swed_update_checker() {
+
+    // Make sure core is on a version that contains our dependancies
+    if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWED_CORE_VERSION_REQUIRED) >= 0){
+
+        // Check if the plugin is registered
+        if( is_swp_addon_registered( 'enhanced_display' ) ) {
+
+            // retrieve our license key from the DB
+            $license_key = swp_get_license_key('affiliatewp');
+            $website_url = swp_get_site_url();
+
+            // setup the updater
+            $edd_updater = new SW_EDD_SL_Plugin_Updater( SWP_STORE_URL , __FILE__ , array(
+            	'version'   => SWED_VERSION,		// current version number
+            	'license'   => $license_key,	// license key
+            	'item_id'   => SWED_ITEM_ID,	// id of this plugin
+            	'author'    => 'Warfare Plugins',	// author of this plugin
+            	'url'       => $website_url,
+                'beta'      => false // set to true if you wish customers to receive update notifications of beta releases
+                )
+            );
+        }
+    }
+}
 
 /**
  * A function to add this plugins options to the options page
@@ -53,8 +87,8 @@ function social_warfare_affiliatewp_registration_key($array) {
  * @param  array $swp_options The array of options
  * @return array $swp_options The modified array
  */
-add_filter('swp_options', 'swabd_add_options' , 10 );
-function swabd_add_options($swp_options) {
+add_filter('swp_options', 'SWED_add_options' , 10 );
+function SWED_add_options($swp_options) {
     $option['emphasize_icons'] = array(
         'type'		=> 'select',
         'size'		=> 'two-thirds',
