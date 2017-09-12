@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Social Warfare - Advanced Button Display
+ * Plugin Name: Social Warfare - Enhanced Display
  * Plugin URI:  http://warfareplugins.com
- * Description: A plugin to maximize social shares and drive more traffic using the fastest and most intelligent share buttons on the market, calls to action via in-post click-to-tweets, popular posts widgets based on share popularity, link-shortening, Google Analytics and much, much more!
+ * Description: A plugin that allows you enahnced control over the display of Social Warfare on your website.
  * Version:     1.0.0
  * Author:      Warfare Plugins
  * Author URI:  http://warfareplugins.com
@@ -12,8 +12,9 @@
 defined( 'WPINC' ) || die;
 
 /**
- * Define plugin constants for use throughout the plugin (Version and Directories)
+ * Define plugin constants for use throughout the plugin (Version, Directories and Dependancies)
  */
+define( 'SWED_VERSION' , '1.0.0' );
 define( 'SWED_PLUGIN_FILE', __FILE__ );
 define( 'SWED_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 define( 'SWED_PLUGIN_DIR', dirname( __FILE__ ) );
@@ -139,7 +140,7 @@ function swp_emphasize_buttons( $info ) {
 
                 function swp_emphasize_buttons() {
                     var emphasize_icons = jQuery(".nc_socialPanel:not(.nc_socialPanelSide)").attr("data-emphasize");
-                    if( ! isMobile.phone ) {
+                    if( ! swp_isMobile.phone ) {
                         setTimeout( function () {
                             jQuery(".nc_socialPanel:not(.nc_socialPanelSide)").each(function(){
                                 var i = 1;
