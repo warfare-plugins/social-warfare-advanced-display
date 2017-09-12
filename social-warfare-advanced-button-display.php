@@ -27,8 +27,8 @@ define( 'SWED_CORE_VERSION_REQUIRED' , '2.3.2');
  * @return Array An array modified to add this new registration key
  *
  */
-add_filter('swp_registrations' , 'social_warfare_affiliatewp_registration_key' , 10);
-function social_warfare_affiliatewp_registration_key($array) {
+add_filter('swp_registrations' , 'social_warfare_enhanced_display_registration_key' , 20);
+function social_warfare_enhanced_display_registration_key($array) {
 
     // Make sure core is on a version that contains our dependancies
     if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWED_CORE_VERSION_REQUIRED) >= 0){
@@ -67,7 +67,7 @@ function swed_update_checker() {
             $website_url = swp_get_site_url();
 
             // setup the updater
-            $edd_updater = new SW_EDD_SL_Plugin_Updater( SWP_STORE_URL , __FILE__ , array(
+            $swed_updater = new SW_EDD_SL_Plugin_Updater( SWP_STORE_URL , __FILE__ , array(
             	'version'   => SWED_VERSION,		// current version number
             	'license'   => $license_key,	// license key
             	'item_id'   => SWED_ITEM_ID,	// id of this plugin
