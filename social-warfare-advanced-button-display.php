@@ -127,33 +127,42 @@ function SWED_add_options($swp_options) {
 add_filter( 'swp_footer_scripts' , 'swp_emphasize_buttons' );
 function swp_emphasize_buttons( $info ) {
 
-	$info['footer_output'] .= PHP_EOL . '
-        jQuery(window).on("pre_activate_buttons", swp_emphasize_buttons );
-        jQuery(window).on("floating_bar_revealed", swp_emphasize_buttons );
+    // Ensure that core is installed and that it is an updated/compatible version
+    if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWED_CORE_VERSION_REQUIRED) >= 0){
 
-        function swp_emphasize_buttons() {
-            var emphasize_icons = jQuery(".nc_socialPanel:not(.nc_socialPanelSide)").attr("data-emphasize");
-            if( ! isMobile.phone ) {
-                setTimeout( function () {
-                    jQuery(".nc_socialPanel:not(.nc_socialPanelSide)").each(function(){
-                        var i = 1;
-                        jQuery(this).find(".nc_tweetContainer:not(.totes)").each(function(){
-                            if(i <= emphasize_icons) {
-                                jQuery(this).addClass("swp_nohover");
-                                var term_width = jQuery(this).find(".swp_share").width();
-                                var icon_width = jQuery(this).find("i.sw").outerWidth();
-                    			var container_width = jQuery(this).width();
-                    			var percentage_change = 1 + ((term_width + 35) / container_width);
-                                jQuery(this).find(".iconFiller").width(term_width + icon_width + 25 + "px");
-                                jQuery(this).css({flex:percentage_change + " 1 0%"});
-                            }
-                            ++i;
-                        });
-                    });
-                } , 25 );
-            }
+        // Check if the plugin is registered
+        if( is_swp_addon_registered( 'enhanced_display' ) ) {
+
+        	$info['footer_output'] .= PHP_EOL . '
+                jQuery(window).on("pre_activate_buttons", swp_emphasize_buttons );
+                jQuery(window).on("floating_bar_revealed", swp_emphasize_buttons );
+
+                function swp_emphasize_buttons() {
+                    var emphasize_icons = jQuery(".nc_socialPanel:not(.nc_socialPanelSide)").attr("data-emphasize");
+                    if( ! isMobile.phone ) {
+                        setTimeout( function () {
+                            jQuery(".nc_socialPanel:not(.nc_socialPanelSide)").each(function(){
+                                var i = 1;
+                                jQuery(this).find(".nc_tweetContainer:not(.totes)").each(function(){
+                                    if(i <= emphasize_icons) {
+                                        jQuery(this).addClass("swp_nohover");
+                                        var term_width = jQuery(this).find(".swp_share").width();
+                                        var icon_width = jQuery(this).find("i.sw").outerWidth();
+                            			var container_width = jQuery(this).width();
+                            			var percentage_change = 1 + ((term_width + 35) / container_width);
+                                        jQuery(this).find(".iconFiller").width(term_width + icon_width + 25 + "px");
+                                        jQuery(this).css({flex:percentage_change + " 1 0%"});
+                                    }
+                                    ++i;
+                                });
+                            });
+                        } , 25 );
+                    }
+                }
+            ';
+
         }
-    ';
+    }
 
 	return $info;
 }
