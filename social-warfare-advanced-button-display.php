@@ -14,9 +14,37 @@ defined( 'WPINC' ) || die;
 /**
  * Define plugin constants for use throughout the plugin (Version and Directories)
  */
-define( 'ABD_PLUGIN_FILE', __FILE__ );
-define( 'ABD_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
-define( 'ABD_PLUGIN_DIR', dirname( __FILE__ ) );
+define( 'SWABD_PLUGIN_FILE', __FILE__ );
+define( 'SWABD_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
+define( 'SWABD_PLUGIN_DIR', dirname( __FILE__ ) );
+define( 'SWABD_ITEM_ID', 114481 );
+define( 'SWABD_CORE_VERSION_REQUIRED' , '2.3.2');
+
+/**
+ * Add a registration key for the registration functions
+ *
+ * @param Array An array of registrations for each paid addon
+ * @return Array An array modified to add this new registration key
+ *
+ */
+add_filter('swp_registrations' , 'social_warfare_affiliatewp_registration_key' , 10);
+function social_warfare_affiliatewp_registration_key($array) {
+
+    // Make sure core is on a version that contains our dependancies
+    if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWAWP_CORE_VERSION_REQUIRED) >= 0){
+
+        // Add this plugin to the registrations array
+        $array['enhanced_display'] = array(
+            'plugin_name' => 'Social Warfare - Enhanced Display',
+            'key' => 'enhanced_display',
+            'product_id' => SWAWP_ITEM_ID
+        );
+    }
+
+    // Return the modified or unmodified array
+    return $array;
+}
+
 
 /**
  * A function to add this plugins options to the options page
@@ -25,8 +53,8 @@ define( 'ABD_PLUGIN_DIR', dirname( __FILE__ ) );
  * @param  array $swp_options The array of options
  * @return array $swp_options The modified array
  */
-add_filter('swp_options', 'abd_add_options' , 10 );
-function abd_add_options($swp_options) {
+add_filter('swp_options', 'swabd_add_options' , 10 );
+function swabd_add_options($swp_options) {
     $option['emphasize_icons'] = array(
         'type'		=> 'select',
         'size'		=> 'two-thirds',
