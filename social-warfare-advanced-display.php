@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Social Warfare - Enhanced Display
+ * Plugin Name: Social Warfare - Advanced Display
  * Plugin URI:  http://warfareplugins.com
  * Description: A plugin that allows you enahnced control over the display of Social Warfare on your website.
  * Version:     1.0.0
@@ -14,12 +14,12 @@ defined( 'WPINC' ) || die;
 /**
  * Define plugin constants for use throughout the plugin (Version, Directories and Dependancies)
  */
-define( 'SWED_VERSION' , '1.0.0' );
-define( 'SWED_PLUGIN_FILE', __FILE__ );
-define( 'SWED_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
-define( 'SWED_PLUGIN_DIR', dirname( __FILE__ ) );
-define( 'SWED_ITEM_ID', 114481 );
-define( 'SWED_CORE_VERSION_REQUIRED' , '2.3.2');
+define( 'SWAD_VERSION' , '1.0.0' );
+define( 'SWAD_PLUGIN_FILE', __FILE__ );
+define( 'SWAD_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
+define( 'SWAD_PLUGIN_DIR', dirname( __FILE__ ) );
+define( 'SWAD_ITEM_ID', 114481 );
+define( 'SWAD_CORE_VERSION_REQUIRED' , '2.3.2');
 
 /**
  * Add a registration key for the registration functions
@@ -32,13 +32,13 @@ add_filter('swp_registrations' , 'social_warfare_enhanced_display_registration_k
 function social_warfare_enhanced_display_registration_key($array) {
 
     // Make sure core is on a version that contains our dependancies
-    if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWED_CORE_VERSION_REQUIRED) >= 0){
+    if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWAD_CORE_VERSION_REQUIRED) >= 0){
 
         // Add this plugin to the registrations array
-        $array['enhanced_display'] = array(
-            'plugin_name' => 'Social Warfare - Enhanced Display',
-            'key' => 'enhanced_display',
-            'product_id' => SWED_ITEM_ID
+        $array['advanced_display'] = array(
+            'plugin_name' => 'Social Warfare - Advanced Display',
+            'key' => 'advanced_display',
+            'product_id' => SWAD_ITEM_ID
         );
     }
 
@@ -54,24 +54,24 @@ function social_warfare_enhanced_display_registration_key($array) {
  * @return none
  *
  */
-add_action( 'plugins_loaded' , 'swed_update_checker' , 20 );
-function swed_update_checker() {
+add_action( 'plugins_loaded' , 'swad_update_checker' , 20 );
+function swad_update_checker() {
 
     // Make sure core is on a version that contains our dependancies
-    if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWED_CORE_VERSION_REQUIRED) >= 0){
+    if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWAD_CORE_VERSION_REQUIRED) >= 0){
 
         // Check if the plugin is registered
-        if( is_swp_addon_registered( 'enhanced_display' ) ) {
+        if( is_swp_addon_registered( 'advanced_display' ) ) {
 
             // retrieve our license key from the DB
-            $license_key = swp_get_license_key('affiliatewp');
+            $license_key = swp_get_license_key('advanced_display');
             $website_url = swp_get_site_url();
 
             // setup the updater
-            $swed_updater = new SW_EDD_SL_Plugin_Updater( SWP_STORE_URL , __FILE__ , array(
-            	'version'   => SWED_VERSION,		// current version number
+            $swad_updater = new SW_EDD_SL_Plugin_Updater( SWP_STORE_URL , __FILE__ , array(
+            	'version'   => SWAD_VERSION,		// current version number
             	'license'   => $license_key,	// license key
-            	'item_id'   => SWED_ITEM_ID,	// id of this plugin
+            	'item_id'   => SWAD_ITEM_ID,	// id of this plugin
             	'author'    => 'Warfare Plugins',	// author of this plugin
             	'url'       => $website_url,
                 'beta'      => false // set to true if you wish customers to receive update notifications of beta releases
@@ -88,10 +88,10 @@ function swed_update_checker() {
  * @param  array $swp_options The array of options
  * @return array $swp_options The modified array
  */
-add_filter('swp_options', 'SWED_add_options' , 10 );
-function SWED_add_options($swp_options) {
+add_filter('swp_options', 'SWAD_add_options' , 10 );
+function SWAD_add_options($swp_options) {
 
-    if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWED_CORE_VERSION_REQUIRED) >= 0){
+    if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWAD_CORE_VERSION_REQUIRED) >= 0){
 
         // Check if the plugin is registered
         if( is_swp_addon_registered( 'enhanced_display' ) ) {
@@ -129,7 +129,7 @@ add_filter( 'swp_footer_scripts' , 'swp_emphasize_buttons' );
 function swp_emphasize_buttons( $info ) {
 
     // Ensure that core is installed and that it is an updated/compatible version
-    if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWED_CORE_VERSION_REQUIRED) >= 0){
+    if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWAD_CORE_VERSION_REQUIRED) >= 0){
 
         // Check if the plugin is registered
         if( is_swp_addon_registered( 'enhanced_display' ) ) {
