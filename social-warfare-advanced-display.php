@@ -98,7 +98,7 @@ function SWAD_add_options($swp_options) {
     if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWAD_CORE_VERSION_REQUIRED) >= 0){
 
         // Check if the plugin is registered
-        if( is_swp_addon_registered( 'enhanced_display' ) ) {
+        if( is_swp_addon_registered( 'advanced_display' ) ) {
 
             $option['emphasize_icons'] = array(
                 'type'		=> 'select',
@@ -136,7 +136,7 @@ function swp_emphasize_buttons( $info ) {
     if (defined('SWP_VERSION') && version_compare(SWP_VERSION , SWAD_CORE_VERSION_REQUIRED) >= 0){
 
         // Check if the plugin is registered
-        if( is_swp_addon_registered( 'enhanced_display' ) ) {
+        if( is_swp_addon_registered( 'advanced_display' ) ) {
 
         	$info['footer_output'] .= PHP_EOL . '
                 jQuery(window).on("pre_activate_buttons", swp_emphasize_buttons );
