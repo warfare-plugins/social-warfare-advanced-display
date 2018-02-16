@@ -20,6 +20,10 @@ define( 'SWAD_PLUGIN_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 define( 'SWAD_PLUGIN_DIR', dirname( __FILE__ ) );
 define( 'SWAD_ITEM_ID', 114481 );
 define( 'SWAD_CORE_VERSION_REQUIRED' , '2.3.2');
+if ( !defined( 'SWP_ACTIVATE_REGISTRATION_TAB' )) :
+    define( 'SWP_ACTIVATE_REGISTRATION_TAB', true );
+endif;
+
 
 /**
  * Add a registration key for the registration functions
