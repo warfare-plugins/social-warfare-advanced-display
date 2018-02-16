@@ -143,6 +143,9 @@ function swp_emphasize_buttons( $info ) {
                 jQuery(window).on("floating_bar_revealed", swp_emphasize_buttons );
 
                 function swp_emphasize_buttons() {
+                    // *Disable on mobile devices.
+                    if (jQuery("body").width() < 576) return;
+
                     var emphasize_icons = jQuery(".nc_socialPanel:not(.nc_socialPanelSide)").attr("data-emphasize");
                     if( ! swp_isMobile.phone ) {
                         setTimeout( function () {
