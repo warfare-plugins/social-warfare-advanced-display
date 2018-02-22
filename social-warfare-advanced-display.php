@@ -72,7 +72,7 @@ function swad_update_checker() {
             $website_url = swp_get_site_url();
 
             // setup the updater
-            $swad_updater = new SW_EDD_SL_Plugin_Updater( SWP_STORE_URL , __FILE__ , array(
+            $swad_updater = new SWP_Plugin_Updater( SWP_STORE_URL , __FILE__ , array(
             	'version'   => SWAD_VERSION,		// current version number
             	'license'   => $license_key,	// license key
             	'item_id'   => SWAD_ITEM_ID,	// id of this plugin
