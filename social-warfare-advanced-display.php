@@ -14,14 +14,15 @@ defined( 'WPINC' ) || die;
 add_action( 'plugins_loaded', function() {
     class Social_Warfare_Advanced_Display extends SWP_Addon {
         public function __construct() {
+            parent::__construct();
             $this->name = 'Social Warfare - Advanced Display';
             $this->key = 'advanced_display';
             $this->product_id = 114481;
             $this->version = '1.1.0';
             $this->core_required = '3.0.0';
 
-            if ( $this->is_registerd() ) {
-                if ( version_compare($this->core_version, $this->core_required) >= 0) ) {
+            if ( $this->is_registered() ) {
+                if ( version_compare($this->core_version, $this->core_required) >= 0) {
                     add_filter( 'swp_options', [$this, 'add_options'], 1, 1 );
                     add_filter( 'swp_footer_scripts', 'emphasize_buttons' );
                 } else {
@@ -49,7 +50,7 @@ add_action( 'plugins_loaded', function() {
               ])->set_priority( 100 )
                 ->set_size(  'sw-col-460' )
                 ->set_default( '0' )
-                ->set_premium( $this->key )
+                ->set_premium( $this->key );
 
             $SWP_Options_Page->tabs->display->sections->visual_options->add_option( $emphasize_icons );
 
@@ -106,5 +107,6 @@ add_action( 'plugins_loaded', function() {
         }
     }
 
-    new Social_Warfare_Advanced_Display();
+    $addon = new Social_Warfare_Advanced_Display();
+    add_filter( 'swp_registrations', [$addon, 'add_self']  );
 });
