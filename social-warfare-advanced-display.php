@@ -11,7 +11,9 @@
 
 defined( 'WPINC' ) || die;
 
-add_action( 'plugins_loaded', function() {
+add_action( 'plugins_loaded', 'Social_Warfare_Advanced_Display', 20 );
+
+function Social_Warfare_Advanced_Display() {
     class Social_Warfare_Advanced_Display extends SWP_Addon {
         public function __construct() {
             parent::__construct();
@@ -109,4 +111,4 @@ add_action( 'plugins_loaded', function() {
 
     $addon = new Social_Warfare_Advanced_Display();
     add_filter( 'swp_registrations', [$addon, 'add_self']  );
-});
+}
