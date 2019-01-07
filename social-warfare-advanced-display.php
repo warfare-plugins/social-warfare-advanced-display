@@ -17,9 +17,7 @@ define( 'SWAD_PLUGIN_DIR', dirname( __FILE__ ) );
 
 add_action('plugins_loaded' , 'initialize_social_warfare_advanced_display' , 20 );
 function initialize_social_warfare_advanced_display() {
-	if( defined('SWP_VERSION') && SWP_VERSION === SWAD_CORE_VERSION_REQUIRED ):
 		require_once 'Social_Warfare_Advanced_Display.php';
-        $addon = new Social_Warfare_Advanced_Display();
-        add_filter( 'swp_registrations', [$addon, 'add_self']  );
-	endif;
+		$addon = new Social_Warfare_Advanced_Display();
+		add_filter( 'swp_registrations', [$addon, 'add_self']  );
 }
