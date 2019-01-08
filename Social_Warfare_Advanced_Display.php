@@ -21,9 +21,10 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 	/**
 	 * A function to add this plugins options to the options page
 	 *
-	 * @since  1.0.0
+	 * @since  1.0.0 | JAN 08 2018 | Created.
 	 * @param  array $swp_options The array of options
 	 * @return array $swp_options The modified array
+	 * 
 	 */
 	function add_options( ) {
 		global $SWP_Options_Page;
@@ -41,6 +42,17 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 		$SWP_Options_Page->tabs->display->sections->social_networks->add_option( $emphasize_icon );
 	}
 
+
+	/**
+	 * Prepares plugin options for frontend JavaScript.
+	 *
+	 * @since  1.0.0 | 08 JAN 2018 | Created.
+	 * @access public
+	 * @hook   filter | swp_footer_scripts | @see social-warfare\lib\frontent-output\SWP_Script.php
+	 * @param  array $info An array of footer script information.
+	 * @return array $info A modified array of footer script information.
+	 *
+	 */
 	function fetch_values( $addon_vars) {
 		$data = array();
 		$emphasized_icon = SWP_Utility::get_option('emphasized_icon');
@@ -51,13 +63,16 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 		return $addon_vars;
 	}
 
+
 	/**
-	 * The Button Emphasizer Function
+	 * Adds JavaScript to the filtered Social Warfare $info array.
 	 *
-	 * @since  1.0.0
+	 * @since  1.0.0 | 08 JAN 2018 | Created.
 	 * @access public
+	 * @hook   filter | swp_footer_scripts | @see social-warfare\lib\frontent-output\SWP_Script.php
 	 * @param  array $info An array of footer script information.
 	 * @return array $info A modified array of footer script information.
+	 *
 	 */
 	function add_addon_javascript( $info ) {
 		ob_start();
