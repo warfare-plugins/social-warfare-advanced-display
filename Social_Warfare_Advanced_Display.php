@@ -9,11 +9,9 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 		parent::__construct();
 
 		// if ( $this->is_registered ) {
-
 			if ( version_compare(SWP_VERSION, $this->core_required) >= 0) {
 				$this->add_options();
-				// add_filter( 'swp_options', [$this, 'add_options'], 1, 1 );
-				add_filter( 'swp_footer_scripts', array($this, 'emphasize_buttons' ) );
+				add_filter( 'swp_footer_scripts', array($this, 'add_addon_javascript' ) );
 			}
 		// }
 	}
@@ -35,12 +33,11 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 			'1' 	=> __( 'Emphasize the First Button','social-warfare' ),
 			'2' 	=> __( 'Emphasize the First Two Buttons','social-warfare' )
 		  ])->set_priority( 100 )
-			->set_size(  'sw-col-460' )
+			->set_size( 'sw-col-300' )
 			->set_default( '0' )
 			->set_premium( $this->key );
 
-		$SWP_Options_Page->tabs->styles->sections->buttons_preview_section->add_option( $emphasize_icons );
-
+		$SWP_Options_Page->tabs->display->sections->social_networks->add_option( $emphasize_icons );
 	}
 
 	/**
@@ -51,16 +48,15 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 	 * @param  array $info An array of footer script information.
 	 * @return array $info A modified array of footer script information.
 	 */
-	function emphasize_buttons( $info ) {
+	function add_addon_javascript( $info ) {
 		ob_start();
 		?>
-console.log('Advanced Display js loaded')
+		console.log('Advanced Display js loaded')
 		jQuery(window).on("pre_activate_buttons", swp_emphasize_buttons );
 		jQuery(window).on("floating_bar_revealed", swp_emphasize_buttons );
 
 		function swp_emphasize_buttons() {
 			console.log('swp_emphasize_buttons')
-			// *Disable on mobile devices.
 			if (socialWarfare.isMobile()) {
 				console.log('is moible')
 				return;
