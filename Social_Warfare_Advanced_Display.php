@@ -67,30 +67,38 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 		jQuery(window).on("floating_bar_revealed", swp_emphasize_buttons );
 
 		function swp_emphasize_buttons() {
-			console.log('swp_emphasize_buttons')
-			if (socialWarfare.isMobile()) {
-				console.log('is moible')
+			if (typeof socialWarfare == 'undefined' || typeof socialWarfare.advancedDisplay == 'undefined') {
 				return;
 			}
 
-			var emphasize_icons = jQuery(".swp_social_panel:not(.swp_social_panelSide)").attr("data-emphasize");
+			if (typeof socialWarfare.advancedDisplay.emphasizedIcon == 'undefined') {
+				return;
+			}
+
+			// Advanced Display is only good for desktop views.
+			if (socialWarfare.isMobile()) {
+				return;
+			}
+
 			setTimeout(function() {
 				jQuery(".swp_social_panel:not(.swp_social_panel)").each(function(){
-					var i = 1;
-					jQuery(this).find(".nc_tweetContainer:not(.totes)").each(function(){
-						if(i <= emphasize_icons) {
-							jQuery(this).addClass("swp_nohover");
-							var term_width = jQuery(this).find(".swp_share").width();
-							var icon_width = jQuery(this).find("i.sw").outerWidth();
-							var container_width = jQuery(this).width();
-							var percentage_change = 1 + ((term_width + 35) / container_width);
-							jQuery(this).find(".iconFiller").width(term_width + icon_width + 25 + "px");
-							jQuery(this).css({flex:percentage_change + " 1 0%"});
+					jQuery(this).find(".nc_tweetContainer:not(.total_shares)").each(function(index, button) {
+						if( index < socialWarfare.advancedDisplay.emphasizedIcon) {
+							emphasizeIcon(button)
 						}
-						++i;
 					});
 				});
 			}, 25 );
+		}
+
+		function emphasizeIcon(button) {
+			jQuery(button).addClass("swp_nohover");
+			var term_width = jQuery(button).find(".swp_share").width();
+			var icon_width = jQuery(button).find("i.sw").outerWidth();
+			var container_width = jQuery(button).width();
+			var percentage_change = 1 + ((term_width + 35) / container_width);
+			jQuery(button).find(".iconFiller").width(term_width + icon_width + 25 + "px");
+			jQuery(button).css({flex:percentage_change + " 1 0%"});
 		}
 
 		<?php
