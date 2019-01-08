@@ -45,7 +45,7 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 		$data = array();
 		$emphasized_icon = SWP_Utility::get_option('emphasized_icon');
 
-		$data['emphasizedIcon'] = $emphasize_icon;
+		$data['emphasizedIcon'] = $emphasized_icon;
 
 		$addon_vars['advancedDisplay'] = $data;
 		return $addon_vars;
@@ -62,9 +62,7 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 	function add_addon_javascript( $info ) {
 		ob_start();
 		?>
-		console.log('Advanced Display js loaded')
-		jQuery(window).on("pre_activate_buttons", swp_emphasize_buttons );
-		jQuery(window).on("floating_bar_revealed", swp_emphasize_buttons );
+		jQuery(window).on('load', swp_emphasize_buttons);
 
 		function swp_emphasize_buttons() {
 			if (typeof socialWarfare == 'undefined' || typeof socialWarfare.advancedDisplay == 'undefined') {
@@ -80,25 +78,25 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 				return;
 			}
 
-			setTimeout(function() {
-				jQuery(".swp_social_panel:not(.swp_social_panel)").each(function(){
-					jQuery(this).find(".nc_tweetContainer:not(.total_shares)").each(function(index, button) {
-						if( index < socialWarfare.advancedDisplay.emphasizedIcon) {
-							emphasizeIcon(button)
-						}
-					});
+			jQuery(".swp_social_panel:not(.swp_social_panelSide)").each(function(i, panel){
+				jQuery(panel).find(".nc_tweetContainer:not(.total_shares)").each(function(index, button) {
+					if( index < socialWarfare.advancedDisplay.emphasizedIcon) {
+						emphasizeIcon(button)
+					}
 				});
-			}, 25 );
+			});
 		}
 
 		function emphasizeIcon(button) {
-			jQuery(button).addClass("swp_nohover");
-			var term_width = jQuery(button).find(".swp_share").width();
-			var icon_width = jQuery(button).find("i.sw").outerWidth();
-			var container_width = jQuery(button).width();
-			var percentage_change = 1 + ((term_width + 35) / container_width);
-			jQuery(button).find(".iconFiller").width(term_width + icon_width + 25 + "px");
-			jQuery(button).css({flex:percentage_change + " 1 0%"});
+			button = jQuery(button)
+			var shareWidth = button.find(".swp_share").width();
+			var iconWidth = button.find("i.sw").outerWidth();
+			var containerWidth = jQuery(button).width();
+			var percentage_change = 1 + ((shareWidth + 35) / containerWidth);
+
+			button.addClass("swp_nohover");
+			button.find(".iconFiller").width(shareWidth + iconWidth + 25 + "px");
+			button.css({flex:percentage_change + " 1 0%"});
 		}
 
 		<?php
