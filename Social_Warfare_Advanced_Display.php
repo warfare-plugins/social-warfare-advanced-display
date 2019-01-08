@@ -11,6 +11,7 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 		// if ( $this->is_registered ) {
 			if ( version_compare(SWP_VERSION, $this->core_required) >= 0) {
 				$this->add_options();
+				add_filter( 'swp_addon_javascript_variables', array( $this, 'fetch_values' ) );
 				add_filter( 'swp_footer_scripts', array($this, 'add_addon_javascript' ) );
 			}
 		// }
@@ -27,8 +28,8 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 	function add_options( ) {
 		global $SWP_Options_Page;
 
-		$emphasize_icons = new SWP_Option_Select( __( 'Emphasize Buttons','social-warfare' ), 'emphasize_icons' );
-		$emphasize_icons->set_choices([
+		$emphasize_icon = new SWP_Option_Select( __( 'Emphasize Buttons','social-warfare' ), 'emphasized_icon' );
+		$emphasize_icon->set_choices([
 			'0' 	=> __( 'Don\'t Emphasize Any Buttons','social-warfare' ),
 			'1' 	=> __( 'Emphasize the First Button','social-warfare' ),
 			'2' 	=> __( 'Emphasize the First Two Buttons','social-warfare' )
@@ -37,7 +38,17 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 			->set_default( '0' )
 			->set_premium( $this->key );
 
-		$SWP_Options_Page->tabs->display->sections->social_networks->add_option( $emphasize_icons );
+		$SWP_Options_Page->tabs->display->sections->social_networks->add_option( $emphasize_icon );
+	}
+
+	function fetch_values( $addon_vars) {
+		$data = array();
+		$emphasized_icon = SWP_Utility::get_option('emphasized_icon');
+
+		$data['emphasizedIcon'] = $emphasize_icon;
+
+		$addon_vars['advancedDisplay'] = $data;
+		return $addon_vars;
 	}
 
 	/**
