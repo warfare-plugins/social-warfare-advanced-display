@@ -3,18 +3,18 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 	public function __construct() {
 		$this->name = 'Social Warfare - Advanced Display';
 		$this->key = 'advanced_display';
-		$this->product_id = 114481;
+		$this->product_id = 259301;
 		$this->version = '1.1.0';
 		$this->core_required = '3.0.0';
 		parent::__construct();
 
-		// if ( $this->is_registered ) {
+		if ( $this->is_registered ) {
 			if ( version_compare(SWP_VERSION, $this->core_required) >= 0) {
 				$this->add_options();
 				add_filter( 'swp_addon_javascript_variables', array( $this, 'fetch_values' ) );
 				add_filter( 'swp_footer_scripts', array($this, 'add_addon_javascript' ) );
 			}
-		// }
+		}
 	}
 
 
@@ -24,7 +24,7 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 	 * @since  1.0.0 | JAN 08 2018 | Created.
 	 * @param  array $swp_options The array of options
 	 * @return array $swp_options The modified array
-	 * 
+	 *
 	 */
 	function add_options( ) {
 		global $SWP_Options_Page;
@@ -107,11 +107,11 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 			var shareWidth = button.find(".swp_share").width();
 			var iconWidth = button.find("i.sw").outerWidth();
 			var containerWidth = jQuery(button).width();
-			var percentage_change = 1 + ((shareWidth + 35) / containerWidth);
+			var change = 1 + ((shareWidth + 35) / containerWidth);
 
 			button.addClass("swp_nohover");
 			button.find(".iconFiller").width(shareWidth + iconWidth + 25 + "px");
-			button.css({flex:percentage_change + " 1 0%"});
+			button.css({flex:change + " 1 0%"});
 		}
 
 		<?php
