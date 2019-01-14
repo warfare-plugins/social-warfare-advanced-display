@@ -46,7 +46,7 @@ function initialize_social_warfare_advanced_display() {
 	*
 	*/
 
-   if( class_exists( 'Social_Warfare_Addon' ) && version_compare( SWP_VERSION , '3.4.0' ) >= 0 ) {
+   if( class_exists( 'Social_Warfare_Addon' ) && version_compare( SWP_VERSION , '3.4.9' ) >= 0 ) {
 	   require_once 'Social_Warfare_Advanced_Display.php';
 	   new Social_Warfare_Advanced_Display();
    }
