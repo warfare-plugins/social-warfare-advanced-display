@@ -8,13 +8,29 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 		$this->core_required = '3.0.0';
 		parent::__construct();
 
-		if ( $this->is_registered ) {
-			if ( version_compare(SWP_VERSION, $this->core_required) >= 0) {
-				$this->add_options();
-				add_filter( 'swp_addon_javascript_variables', array( $this, 'fetch_values' ) );
-				add_filter( 'swp_footer_scripts', array($this, 'add_addon_javascript' ) );
-			}
+		if ( !$this->is_registered ) {
+			return;
 		}
+
+		$this->add_options();
+
+		is_admin()
+			? add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) )
+			: add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+
+		add_filter( 'swp_addon_javascript_variables', array( $this, 'fetch_values' ) );
+		add_filter( 'swp_footer_scripts', array($this, 'add_addon_javascript' ) );
+	}
+
+
+	public function enqueue_assets() {
+		wp_enqueue_style(
+			'swad-style',
+			plugins_url('social-warfare-advanced-display/assets/swad-style.css'),
+			['social_warfare'], // the core Social Warfare stylesheet.
+			false,
+			false
+		);
 	}
 
 
@@ -26,7 +42,7 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 	 * @return array $swp_options The modified array
 	 *
 	 */
-	function add_options( ) {
+	public function add_options( ) {
 		global $SWP_Options_Page;
 
 		$emphasize_icon = new SWP_Option_Select( __( 'Emphasize Buttons','social-warfare' ), 'emphasized_icon' );
@@ -53,7 +69,7 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 	 * @return array $info A modified array of footer script information.
 	 *
 	 */
-	function fetch_values( $addon_vars) {
+	public function fetch_values( $addon_vars) {
 		$data = array();
 		$emphasized_icon = SWP_Utility::get_option('emphasized_icon');
 
@@ -74,7 +90,7 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 	 * @return array $info A modified array of footer script information.
 	 *
 	 */
-	function add_addon_javascript( $info ) {
+	public function add_addon_javascript( $info ) {
 		ob_start();
 		?>
 		jQuery(window).on('load', swp_emphasize_buttons);
@@ -104,14 +120,18 @@ class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 
 		function emphasizeIcon(button) {
 			button = jQuery(button)
+			button.addClass("swp_nohover swp-emphasize");
+
+
+			/*
 			var shareWidth = button.find(".swp_share").width();
 			var iconWidth = button.find("i.sw").outerWidth();
 			var containerWidth = jQuery(button).width();
 			var change = 1 + ((shareWidth + 35) / containerWidth);
+			*/
 
-			button.addClass("swp_nohover");
-			button.find(".iconFiller").width(shareWidth + iconWidth + 25 + "px");
-			button.css({flex:change + " 1 0%"});
+			//button.find(".iconFiller").width(shareWidth + iconWidth + 25 + "px");
+			//button.css({flex:change + " 1 0%"});
 		}
 
 		<?php
