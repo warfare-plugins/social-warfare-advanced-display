@@ -1,10 +1,11 @@
 <?php
 class Social_Warfare_Advanced_Display extends Social_Warfare_Addon {
 	public function __construct() {
-		$this->name = 'Social Warfare - Advanced Display';
-		$this->key = 'advanced_display';
-		$this->product_id = 259301;
-		$this->version = '1.1.0';
+		$this->name          = 'Social Warfare - Advanced Display';
+		$this->key           = 'advanced_display';
+		$this->product_id    = 259301;
+		$this->store_url     = 'https://warfareplugins.com';
+		$this->version       = '1.1.0';
 		$this->core_required = '3.0.0';
 		parent::__construct();
 
